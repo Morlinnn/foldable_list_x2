@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../data/api/basic_tile_controller.dart';
-import '../../data/api/tile_list_controller.dart';
-import '../../data/implements/foldable_list_controller_implement.dart';
-import '../../data/interfaces/lazily_operate.dart';
+import '../api/basic_tile_controller.dart';
+import '../api/tile_list_controller.dart';
+import '../implements/foldable_list_controller_implement.dart';
 
 import '../../enums/transfer_direction.dart';
 import '../mixins/transfer_drag_target_mixin.dart';
 
 // For FoldableListController
-abstract interface class FoldableListController implements BasicTileController, TileListController, LazilyOperate {
+abstract interface class FoldableListController implements BasicTileController, TileListController {
   // TODO check accept by acceptableMigrateTileListViewNameList
   static FoldableListController newInstance({
     required TileListController parentController,

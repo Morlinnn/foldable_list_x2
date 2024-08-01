@@ -1,5 +1,6 @@
 export 'foldable_list/builder/tile_list_view_builder.dart';
 
+export 'foldable_list/data/api/basic_controller.dart';
 export 'foldable_list/data/api/basic_tile_controller.dart';
 export 'foldable_list/data/api/foldable_list_controller.dart';
 export 'foldable_list/data/api/tile_item_controller.dart';
@@ -7,6 +8,7 @@ export 'foldable_list/data/api/tile_list_controller.dart';
 
 // Don't export implements
 
+export 'foldable_list/data/interfaces/build_widget.dart';
 export 'foldable_list/data/interfaces/controller_dependencies_operator.dart';
 export 'foldable_list/data/interfaces/foldable_list_operate.dart';
 export 'foldable_list/data/interfaces/lazily_operate.dart';

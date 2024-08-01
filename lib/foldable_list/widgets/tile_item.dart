@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/mixins/transfer_drag_target_mixin.dart';
-import '../widgets/basic/basic_tile_item.dart';
 
+import 'basic/basic_tile_item.dart';
 import '../data/api/tile_item_controller.dart';
 import 'mixins/controllable.dart';
 
@@ -114,17 +113,7 @@ class _TileItemState extends State<TileItem> {
 
   @override
   Widget build(BuildContext context) {
-    return getDisplayWidget();
-  }
-
-  Widget getDisplayWidget() {
-    return wrapRetraction(
-        wrapIfDraggable(
-          wrapIfTransferDragTarget(
-            getBasicTileItem
-         )
-      )
-    );
+    return widget.controller.buildWidget(getBasicTileItem);
   }
 
   Widget getBasicTileItem() {
@@ -133,46 +122,21 @@ class _TileItemState extends State<TileItem> {
     decoration = status==0
         ? widget.decoration
         : status == 1
-          ? widget.controller.defaultSetting.acceptDecoration
-          : widget.controller.defaultSetting.rejectDecoration;
+        ? widget.controller.defaultSetting.acceptDecoration
+        : widget.controller.defaultSetting.rejectDecoration;
 
     return BasicTileItem(
-      title: widget.title,
-      leading: widget.leading,
-      titleLeft: widget.titleLeft,
-      titleWidth: widget.titleWidth,
-      titleRight: widget.titleRight,
-      trailing: widget.trailing,
-      tileHeight: widget.tileHeight,
-      decoration: decoration,
-      tileMargin: widget.tileMargin,
-      tilePadding: widget.tilePadding,
-      tileClipBehavior: widget.tileClipBehavior
+        title: widget.title,
+        leading: widget.leading,
+        titleLeft: widget.titleLeft,
+        titleWidth: widget.titleWidth,
+        titleRight: widget.titleRight,
+        trailing: widget.trailing,
+        tileHeight: widget.tileHeight,
+        decoration: decoration,
+        tileMargin: widget.tileMargin,
+        tilePadding: widget.tilePadding,
+        tileClipBehavior: widget.tileClipBehavior
     );
-  }
-
-  Widget wrapIfTransferDragTarget(GetDisplayWidgetFunction func) {
-    return widget.controller.wrapIfTransferDragTarget(
-        widget,
-        func,
-        widget.controller
-    );
-  }
-
-  Widget wrapIfDraggable(Widget widget) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return this.widget.controller.wrapIfDraggable(
-          this.widget,
-          widget,
-          widget,
-          this.widget.controller.defaultSetting.emptyTile,
-          this.widget.tileHeight,
-          constraints.maxWidth
-      );
-    });
-  }
-
-  Widget wrapRetraction(Widget widget) {
-    return this.widget.controller.wrapIfRetract(widget);
   }
 }

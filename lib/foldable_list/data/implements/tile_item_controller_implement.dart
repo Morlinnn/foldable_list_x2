@@ -1,6 +1,9 @@
-import '../../data/api/tile_item_controller.dart';
-import '../../data/api/tile_list_controller.dart';
-import '../../data/mixins/tree_data_mixin.dart';
+import 'package:flutter/material.dart';
+
+import '../../widgets/tile_item.dart';
+import '../api/tile_item_controller.dart';
+import '../api/tile_list_controller.dart';
+import '../mixins/tree_data_mixin.dart';
 import '../../enums/transfer_direction.dart';
 import '../mixins/bind_mixin.dart';
 import '../mixins/draggable_mixin.dart';
@@ -69,5 +72,41 @@ class TileItemControllerImplement
     tileListViewName = parentController.tileListViewName;
     updateRetractDeeply(parentController);
     updateTileListViewNameDeeply(parentController);
+  }
+
+  @override
+  Widget buildWidget(Widget Function() getWidgetFunc) {
+    return _wrapIfDraggable(
+        _wrapIfRetract(
+            _wrapIfTransferDragTarget(
+              getWidgetFunc
+            )
+        )
+    );
+  }
+
+  Widget _wrapIfTransferDragTarget(GetDisplayWidgetFunction func) {
+    return wrapIfTransferDragTarget(
+        thisWidget,
+        func,
+        this
+    );
+  }
+
+  Widget _wrapIfDraggable(Widget widget) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return wrapIfDraggable(
+          thisWidget,
+          widget,
+          widget,
+          defaultSetting.emptyTile,
+          (thisWidget as TileItem).tileHeight,
+          constraints.maxWidth
+      );
+    });
+  }
+
+  Widget _wrapIfRetract(Widget widget) {
+    return wrapIfRetract(widget);
   }
 }

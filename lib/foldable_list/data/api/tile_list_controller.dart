@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../data/interfaces/lazily_operate.dart';
+import '../api/basic_controller.dart';
+import '../interfaces/lazily_operate.dart';
 import '../implements/tile_list_view_controller_implement.dart';
 import '../../enums/transfer_direction.dart';
 import '../interfaces/foldable_list_operate.dart';
-import '../mixins/tree_data_mixin.dart';
 import '../others/tree_default_setting.dart';
 
-abstract interface class TileListController with TreeDataMixin implements TileListDataOperate, LazilyOperate {
+abstract interface class TileListController implements TileListDataOperate, LazilyOperate, BasicController {
   static TileListController newInstance({
     required String name,
     TreeDefaultSetting? defaultSetting,
@@ -42,13 +42,4 @@ abstract interface class TileListController with TreeDataMixin implements TileLi
   // TileListDataMixin
   set children(List<Widget> children);
   List<Widget> get children;
-  // TreeDataMixin
-  @override
-  set tileListViewName(String tileListViewName);
-  @override
-  String get tileListViewName;
-  @override
-  set defaultSetting(TreeDefaultSetting defaultSetting);
-  @override
-  TreeDefaultSetting get defaultSetting;
 }

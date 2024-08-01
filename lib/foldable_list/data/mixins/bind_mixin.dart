@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/api/tile_list_controller.dart';
+import '../api/tile_list_controller.dart';
 
 mixin BindMixin {
   late Widget thisWidget;

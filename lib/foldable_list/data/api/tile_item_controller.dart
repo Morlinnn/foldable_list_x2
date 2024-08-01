@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../data/api/basic_tile_controller.dart';
-import '../../data/api/tile_list_controller.dart';
-import '../../data/mixins/transfer_drag_target_mixin.dart';
-import '../../data/implements/tile_item_controller_implement.dart';
 
+import '../api/basic_tile_controller.dart';
+import '../api/tile_list_controller.dart';
+import '../mixins/transfer_drag_target_mixin.dart';
+import '../implements/tile_item_controller_implement.dart';
 import '../../enums/transfer_direction.dart';
 
 // For TileItemController

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/api/basic_tile_controller.dart';
-import '../../data/api/tile_item_controller.dart';
+import '../api/basic_tile_controller.dart';
+import '../api/tile_item_controller.dart';
 import '../../enums/transfer_direction.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';

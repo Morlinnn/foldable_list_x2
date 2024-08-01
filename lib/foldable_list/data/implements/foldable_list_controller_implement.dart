@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../data/api/foldable_list_controller.dart';
-import '../../data/api/tile_list_controller.dart';
-import '../../data/mixins/retractable_mixin.dart';
-import '../../data/mixins/tree_data_mixin.dart';
+import '../../widgets/foldable_list_contents.dart';
+import '../api/foldable_list_controller.dart';
+import '../api/tile_list_controller.dart';
+import '../mixins/retractable_mixin.dart';
+import '../mixins/tree_data_mixin.dart';
 import '../../enums/transfer_direction.dart';
-import '../../data/mixins/bind_mixin.dart';
-import '../../data/mixins/divider_mixin.dart';
-import '../../data/mixins/draggable_mixin.dart';
-import '../../data/mixins/expandable_mixin.dart';
-import '../../data/mixins/placeable_list_mixin.dart';
-import '../../data/mixins/rebuild_mixin.dart';
-import '../../data/mixins/tile_list_data_mixin.dart';
+import '../mixins/bind_mixin.dart';
+import '../mixins/divider_mixin.dart';
+import '../mixins/draggable_mixin.dart';
+import '../mixins/expandable_mixin.dart';
+import '../mixins/placeable_list_mixin.dart';
+import '../mixins/rebuild_mixin.dart';
+import '../mixins/tile_list_data_mixin.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';
 import '../api/basic_tile_controller.dart';
@@ -203,4 +204,60 @@ class FoldableListControllerImplement
     updateTileListViewNameDeeply(parentController);
   }
 
+  @override
+  Widget buildWidget(Widget Function() getWidgetFunc) {
+    Widget wrapRT() {
+      return _getWrappedRetractTile(getWidgetFunc());
+    }
+
+    var wrappedDT = wrapDragTarget(
+        wrapRT,
+        this
+    );
+
+    return _wrapIfDraggable(
+      _getDisplayWidget(
+        wrappedDT
+      ),
+      getWidgetFunc()
+    );
+  }
+
+  Widget _wrapIfDraggable(Widget displayWidget, Widget feedbackWidget) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return wrapIfDraggable(
+          thisWidget,
+          displayWidget,
+          feedbackWidget,
+          defaultSetting.emptyTile,
+          (thisWidget as FoldableList).tileHeight,
+          constraints.maxWidth
+      );
+    });
+  }
+
+  Widget _getDisplayWidget(Widget displayTile) {
+    var children = [displayTile];
+    if (isExpanded) children.add(getContents());
+
+    return Column(
+      children: children,
+    );
+  }
+
+  Widget getContents() {
+    return FoldableListContents(
+      children:addChildrenDivider(children),
+    );
+  }
+
+  Widget _getWrappedRetractTile(Widget tile) {
+    return _wrapRetract(
+        tile
+    );
+  }
+
+  Widget _wrapRetract(Widget tile) {
+    return wrapIfRetract(tile);
+  }
 }

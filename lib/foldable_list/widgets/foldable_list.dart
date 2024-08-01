@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/foldable_list_contents.dart';
 import '../data/api/foldable_list_controller.dart';
 import 'basic/basic_tile_item.dart';
 import 'expand_icon_button.dart';
@@ -109,60 +108,7 @@ class _FoldableListState extends State<FoldableList> {
 
   @override
   Widget build(BuildContext context) {
-    return getDisplayWidget();
-  }
-
-  Widget getDisplayWidget() {
-    return wrapIfDraggable();
-  }
-
-  Widget wrapIfDraggable() {
-    return LayoutBuilder(builder: (context, constraints) {
-      return widget.controller.wrapIfDraggable(
-          widget,
-          _getDisplayWidget(),
-          getTile(),
-          widget.controller.defaultSetting.emptyTile,
-          widget.tileHeight,
-          constraints.maxWidth
-      );
-    });
-  }
-
-  Widget _getDisplayWidget() {
-    var children = [getDisplayTile()];
-    if (widget.controller.isExpanded) children.add(getContents());
-
-    return Column(
-      children: children,
-    );
-  }
-
-  Widget getContents() {
-    return FoldableListContents(
-      children: widget.controller.addChildrenDivider(widget.controller.children),
-    );
-  }
-
-  Widget getDisplayTile() {
-    return wrapDragTarget();
-  }
-
-  Widget wrapDragTarget() {
-    return widget.controller.wrapDragTarget(
-        _getWrappedRectTile,
-        widget.controller
-    );
-  }
-
-  Widget _getWrappedRectTile() {
-    return wrapRetract(
-        getTile()
-    );
-  }
-
-  Widget wrapRetract(Widget tile) {
-    return widget.controller.wrapIfRetract(tile);
+    return widget.controller.buildWidget(getTile);
   }
 
   Widget getTile() {

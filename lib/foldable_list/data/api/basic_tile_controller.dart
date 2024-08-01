@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../data/api/tile_list_controller.dart';
 
+import '../interfaces/build_widget.dart';
+import '../api/basic_controller.dart';
+import '../api/tile_list_controller.dart';
 import '../interfaces/controller_dependencies_operator.dart';
-import '../mixins/tree_data_mixin.dart';
-import '../others/tree_default_setting.dart';
 
-// For TileItemController, FoldableListController
-abstract interface class BasicTileController with TreeDataMixin implements ControllerDependenciesOperator {
+/// For TileItemController, FoldableListController
+abstract interface class BasicTileController implements ControllerDependenciesOperator, BasicController, BuildWidget {
   // BindMixin
   set thisWidget(Widget widget);
   Widget get thisWidget;
@@ -18,8 +18,6 @@ abstract interface class BasicTileController with TreeDataMixin implements Contr
   bool get enableDraggable;
   set acceptableMigrateTileListViewNameList(List<String> acceptableMigrateTileListViewNameList);
   List<String> get acceptableMigrateTileListViewNameList;
-  @override
-  updateTileListViewNameDeeply(TileListController controller);
   Widget wrapIfDraggable(Widget realWidget, Widget displayWidget, Widget feedbackWidget, Widget emptyTile, double tileHeight, double tileWidth);
   // RetractableMixin
   set enableRetract(bool enableRetract);
@@ -33,13 +31,4 @@ abstract interface class BasicTileController with TreeDataMixin implements Contr
   void updateDepth(int parentDepth);
   updateRetractDeeply(TileListController controller);
   Widget wrapIfRetract(Widget widget);
-  // TreeDataMixin
-  @override
-  set tileListViewName(String tileListViewName);
-  @override
-  String get tileListViewName;
-  @override
-  set defaultSetting(TreeDefaultSetting defaultSetting);
-  @override
-  TreeDefaultSetting get defaultSetting;
 }

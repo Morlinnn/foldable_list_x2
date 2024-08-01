@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../data/api/tile_list_controller.dart';
-import '../../data/mixins/transfer_drag_target_mixin.dart';
+import '../api/tile_list_controller.dart';
+import '../mixins/transfer_drag_target_mixin.dart';
 import '../../enums/transfer_direction.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';

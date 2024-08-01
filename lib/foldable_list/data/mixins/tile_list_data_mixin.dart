@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/interfaces/lazily_operate.dart';
+import '../interfaces/lazily_operate.dart';
 import '../../global_setting.dart';
 import '../../widgets/basic/basic_tile_item.dart';
 import '../../widgets/foldable_list.dart';
