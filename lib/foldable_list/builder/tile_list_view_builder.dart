@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/tile_list_view.dart';
-import '../data/api/tile_list_controller.dart';
-import '../enums/resolve_intercept_source.dart';
-import '../widgets/foldable_list.dart';
-import '../widgets/tile_item.dart';
+import 'package:foldable_list_x2/foldable_list_ml.dart';
 
 typedef EntryKeyBuildFunction = FoldableList Function(dynamic key, TileListController parentController);
 typedef ValueBuildFunction = Widget Function(dynamic value, TileListController parentController);
@@ -12,6 +7,10 @@ typedef InterceptedBuildFunction = Widget Function(RevolveInterceptSource status
 typedef ResolveMapWill = bool Function(Map data);
 typedef ResolveIterableWill = bool Function(Iterable data);
 typedef ResolveEntryValueWill = bool Function(MapEntry entry);
+
+typedef ManuallyInterceptWill = CodeInterceptReturn Function(dynamic data);
+typedef ManuallyValueBuildFunction = ManuallyBuildReturn Function(dynamic value, TileListController parentController);
+typedef CodeInterceptedBuildFunction = ManuallyBuildReturn Function(int code, dynamic intercepted, TileListController parentController);
 /// <pre>
 /// Support structure like this:
 /// data:
@@ -54,6 +53,7 @@ class TileListViewBuilder {
       tileListViewController,
     );
 
+    // add to parent
     if (widget != null) tileListViewController.addLazily(widget);
 
     return TileListView(
@@ -161,8 +161,10 @@ class TileListViewBuilder {
       valueWidget = interceptedBuildFunc(RevolveInterceptSource.fromEntry, entry, headController);
     }
 
+    // add to head
     if (valueWidget != null) headController.addLazily(valueWidget);
 
+    // add to parent
     parentController.addLazily(head);
   }
 
@@ -190,6 +192,7 @@ class TileListViewBuilder {
             parentController
         );
 
+        // add to parent
         if (valueWidget != null) parentController.addLazily(valueWidget);
       }
       return null;
@@ -198,17 +201,84 @@ class TileListViewBuilder {
     }
   }
 
-  // TODO complete
   static TileListView loadManually(
       TileListController tileListViewController,
       // data and function
       dynamic data,
-      dynamic manuallyBuildFunc,
+      ManuallyInterceptWill interceptWill,
+      ManuallyValueBuildFunction buildFunc,
+      CodeInterceptedBuildFunction interceptedBuildFunc
   ) {
-    manuallyBuildFunc(data, tileListViewController);
+
+    _classifyMethodAndAddToParentM(
+      data,
+      interceptWill,
+      buildFunc,
+      interceptedBuildFunc,
+      tileListViewController
+    );
 
     return TileListView(
         controller: tileListViewController
     );
   }
+
+  static _classifyMethodAndAddToParentM(
+      dynamic data,
+      ManuallyInterceptWill interceptWill,
+      ManuallyValueBuildFunction buildFunc,
+      CodeInterceptedBuildFunction interceptedBuildFunc,
+      TileListController parentController
+  ) {
+    var will = interceptWill(data);
+    ManuallyBuildReturn buildReturn;
+
+    // check will
+    if (will.intercept) {
+      buildReturn = interceptedBuildFunc(will.code, data, parentController);
+    } else {
+      buildReturn = buildFunc(data, parentController);
+    }
+
+    // add to parent
+    parentController.addLazily(buildReturn.widget);
+
+    // open return result
+    if (buildReturn.nextData.isNotEmpty) {
+      for (var d in buildReturn.nextData) {
+        _classifyMethodAndAddToParentM(
+            d,
+            interceptWill,
+            buildFunc,
+            interceptedBuildFunc,
+            buildReturn.widgetController!
+        );
+      }
+    }
+  }
+}
+
+class CodeInterceptReturn {
+  int code;
+  bool intercept;
+
+  CodeInterceptReturn({
+    required this.code,
+    required this.intercept
+  });
+}
+
+class ManuallyBuildReturn {
+  Widget widget;
+  /// If has next, set widgetController of widget(ensure its type is FoldableList).
+  TileListController? widgetController;
+  List<dynamic> nextData;
+
+  ManuallyBuildReturn({
+    required this.widget,
+    this.widgetController,
+    this.nextData = const []
+  }) :
+    assert(nextData.isEmpty || (widget is FoldableList && widgetController != null))
+  ;
 }
