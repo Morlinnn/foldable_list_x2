@@ -1,6 +1,5 @@
 # TODO
 - Complete README
-- Upload example
 - Complete annotation
 - Complete LayeredTileItem
 - Complete constructor: FoldableList.layered
@@ -8,3 +7,4 @@
 - Test accept by acceptableMigrateTileListViewNameList
 - Complete LazilyOperate, FoldableDataOperate moveWidget, moveAll
 - Complete ReorderableMixin
+- Add Animation
