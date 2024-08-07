@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/itile_list_data.dart';
 
 import '../interfaces/lazily_operate.dart';
 import '../../global_setting.dart';
@@ -6,7 +7,8 @@ import '../../widgets/basic/basic_tile_item.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';
 
-mixin TileListDataMixin implements LazilyOperate {
+mixin TileListDataMixin implements LazilyOperate, ITileListData {
+  @override
   late List<Widget> children;
 
   @override

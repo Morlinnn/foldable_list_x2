@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/iplaceable.dart';
 import '../api/tile_list_controller.dart';
 import '../mixins/transfer_drag_target_mixin.dart';
 import '../../enums/transfer_direction.dart';
@@ -7,12 +8,16 @@ import '../../widgets/tile_item.dart';
 
 import '../api/basic_tile_controller.dart';
 
-mixin PlaceableListMixin {
+mixin PlaceableListMixin implements IPlaceable {
   // 0: default, 1: accept, -1: reject
+  @override
   late int placeableStatus;
+  @override
   late bool placeable;
+  @override
   late TransferDirection defaultPlaceDirection;
 
+  @override
   Widget wrapDragTarget(
       GetDisplayWidgetFunction getDisplayWidget,
       TileListController controller

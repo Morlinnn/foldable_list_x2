@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/idivider.dart';
 
-mixin DividerMixin {
+mixin DividerMixin implements IDivider {
+  @override
   late bool enableDivider;
+  @override
   late Divider divider;
 
+  @override
   bool isLastWidget(Widget widget);
 
+  @override
   bool isRootLastWidget(Widget widget);
 
+  @override
   bool isFirstWidget(Widget widget);
 
+  @override
   bool isRootFirstWidget(Widget widget);
 
+  @override
   List<Widget> addChildrenDivider(List<Widget> rawChildren) {
     if (!enableDivider) return rawChildren;
 

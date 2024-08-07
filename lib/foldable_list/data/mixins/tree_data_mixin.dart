@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/itree_data.dart';
 
 import '../others/tree_default_setting.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';
 import '../api/tile_list_controller.dart';
 
-mixin TreeDataMixin {
+mixin TreeDataMixin implements ITreeData {
+  @override
   late String tileListViewName;
+  @override
   late final TreeDefaultSetting defaultSetting;
 
   _notifyChildrenUpdateTileListViewName(List<Widget> children, String listTileWidgetName) {
@@ -19,6 +22,7 @@ mixin TreeDataMixin {
     }
   }
 
+  @override
   updateTileListViewNameDeeply(TileListController controller) {
     tileListViewName = controller.tileListViewName;
 

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/idraggable.dart';
 
-mixin DraggableMixin {
+mixin DraggableMixin implements IDraggable {
+  @override
   late bool enableDraggable;
+  @override
   late List<String> acceptableMigrateTileListViewNameList;
 
+  @override
   Widget wrapIfDraggable(
       Widget realWidget,
       Widget displayWidget,

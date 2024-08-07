@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/iretractable.dart';
 
 import '../api/foldable_list_controller.dart';
 import '../api/tile_list_controller.dart';
 import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';
 
-mixin RetractableMixin {
+mixin RetractableMixin implements IRetractable {
+  @override
   late bool enableRetract;
+  @override
   late bool autoSetRetract;
   late int _depth;
   late double _retraction;
 
+  @override
   set depth(int depth) {
     assert(depth >= 0);
 
     _depth = depth;
   }
 
+  @override
   int get depth => _depth;
 
+  @override
   set retraction(double retraction) {
     assert(retraction >= 0);
 
     _retraction = retraction;
   }
 
+  @override
   double get retraction => _retraction;
 
+  @override
   void updateDepth(int parentDepth) {
     depth = parentDepth + 1;
   }
@@ -43,6 +51,7 @@ mixin RetractableMixin {
   }
 
   /// Auto update depth from parent controller
+  @override
   updateRetractDeeply(TileListController controller) {    // disable retract
     if (!enableRetract) return;
 
@@ -64,6 +73,7 @@ mixin RetractableMixin {
     }
   }
 
+  @override
   Widget wrapIfRetract(Widget widget) {
     return enableRetract ?
       Container(

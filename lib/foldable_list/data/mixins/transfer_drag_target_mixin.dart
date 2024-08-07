@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/itransfer_drag_target.dart';
 
 import '../api/basic_tile_controller.dart';
 import '../api/tile_item_controller.dart';
@@ -7,11 +8,15 @@ import '../../widgets/foldable_list.dart';
 import '../../widgets/tile_item.dart';
 
 typedef GetDisplayWidgetFunction = Widget Function();
-mixin TransferDragTargetMixin {
+mixin TransferDragTargetMixin implements ITransferDragTarget {
+  @override
   late int transferStatus;
+  @override
   late bool enableTransfer;
+  @override
   late TransferDirection defaultTransferDirection;
 
+  @override
   Widget wrapIfTransferDragTarget(
       Widget realWidget,
       GetDisplayWidgetFunction getDisplayWidget,

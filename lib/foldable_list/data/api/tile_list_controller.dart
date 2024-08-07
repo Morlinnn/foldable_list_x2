@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/idivider.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/irebuild.dart';
+import 'package:foldable_list_x2/foldable_list/data/mixins/itile_list_data.dart';
 
 import '../api/basic_controller.dart';
 import '../interfaces/lazily_operate.dart';
@@ -7,7 +10,14 @@ import '../../enums/transfer_direction.dart';
 import '../interfaces/foldable_list_operate.dart';
 import '../others/tree_default_setting.dart';
 
-abstract interface class TileListController implements TileListDataOperate, LazilyOperate, BasicController {
+abstract interface class TileListController
+    implements TileListDataOperate,
+        LazilyOperate,
+        BasicController,
+        IRebuild,
+        IDivider,
+        ITileListData
+{
   static TileListController newInstance({
     required String name,
     TreeDefaultSetting? defaultSetting,
@@ -26,20 +36,4 @@ abstract interface class TileListController implements TileListDataOperate, Lazi
     );
   }
 
-  // RebuildMixin
-  set setState(VoidCallback setState);
-  void notifyRebuild();
-  // DividerMixin
-  set enableDivider(bool enableDivider);
-  bool get enableDivider;
-  set divider(Divider divider);
-  Divider get divider;
-  bool isLastWidget(Widget widget);
-  bool isRootLastWidget(Widget widget);
-  bool isFirstWidget(Widget widget);
-  bool isRootFirstWidget(Widget widget);
-  List<Widget> addChildrenDivider(List<Widget> rawChildren);
-  // TileListDataMixin
-  set children(List<Widget> children);
-  List<Widget> get children;
 }
