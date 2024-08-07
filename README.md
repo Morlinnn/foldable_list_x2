@@ -1,4 +1,5 @@
 # TODO
+- Make controller and tile customizable
 - Complete README
 - Complete annotation
 - Complete LayeredTileItem
